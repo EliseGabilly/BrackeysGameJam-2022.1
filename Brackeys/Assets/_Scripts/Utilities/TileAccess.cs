@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileAccess : MonoBehaviour {
+public class TileAccess : Singleton<TileAccess> {
 
     #region Variables
     [Header("Grids")]
@@ -44,7 +44,6 @@ public class TileAccess : MonoBehaviour {
     [SerializeField]
     private List<GameObject> obstacles_stone;
     #endregion
-
 
     public Tilemap GetFloor() {
         return floor;
