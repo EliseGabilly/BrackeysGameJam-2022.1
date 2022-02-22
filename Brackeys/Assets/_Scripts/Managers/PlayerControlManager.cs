@@ -15,7 +15,7 @@ public class PlayerControlManager : MonoBehaviour {
     [SerializeField]
     private bool isControlRandom = true;
     private Dictionary<Dir, Dir> controlSubstitute;
-    private enum Dir { up, down, left, right, stop};
+    public enum Dir { up, down, left, right, stop};
 
     #endregion
 
@@ -72,6 +72,7 @@ public class PlayerControlManager : MonoBehaviour {
 
     private void ControlFromDir(Dir pressedDirection) {
         Dir substituteDirection = controlSubstitute[pressedDirection];
+        UiManager.Instance.AddDirectionGuide(pressedDirection, substituteDirection);
         switch (substituteDirection) {
             case Dir.up:
                 anim.SetTrigger("back");
