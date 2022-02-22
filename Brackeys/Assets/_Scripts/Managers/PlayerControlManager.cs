@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class PlayerControlManager : MonoBehaviour {
+public class PlayerControlManager : Singleton<PlayerControlManager> {
 
     #region Variables
     private float lerpDuration = 0.4f;
@@ -19,18 +19,21 @@ public class PlayerControlManager : MonoBehaviour {
 
     #endregion
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
     }
 
     private void Start() {
         controlSubstitute = new Dictionary<Dir, Dir>();
-        if (isControlRandom) {
-            RandomizeControl();
-        } else {
-            BaseControl();
-        }
+        BaseControl();
+        StartCoroutine(LateStart());
+    }
+
+    private IEnumerator LateStart() {
+        yield return new WaitForSeconds(0.01f);
+        RandomizeControl();
     }
 
     private void Update() {
@@ -49,8 +52,58 @@ public class PlayerControlManager : MonoBehaviour {
         }
     }
 
-    private void RandomizeControl() {
-        BaseControl();
+    private void BaseControl() {
+        controlSubstitute.Add(Dir.up, Dir.up);
+        controlSubstitute.Add(Dir.down, Dir.down);
+        controlSubstitute.Add(Dir.left, Dir.left);
+        controlSubstitute.Add(Dir.right, Dir.right);
+    }
+
+    private void RandomizeControl() {        
+        int lvl = Player.Instance.level;
+        if (lvl <= 5) {
+            return;
+        } else if (lvl <= 10) {
+            EasyRandomizeControl();
+        } else if (lvl <= 15) {
+            MediumRandomizeControl();
+        } else {
+            HardRandomizeControl();
+        } 
+    }
+
+    private void EasyRandomizeControl() {
+        //invert either up/down or left/right
+        int ran = Random.Range(0, 2);
+
+        int index1 = ran==0 ? 0 : 2;
+        int index2 = ran == 0 ? 1 : 3;
+        Dir key1 = controlSubstitute.ElementAt(index1).Key;
+        Dir key2 = controlSubstitute.ElementAt(index2).Key;
+        Dir val1 = controlSubstitute.ElementAt(index1).Value;
+        Dir val2 = controlSubstitute.ElementAt(index2).Value;
+        controlSubstitute[key1] = val2;
+        controlSubstitute[key2] = val1;
+    }
+
+    private void MediumRandomizeControl() {
+        //invert two control
+        int index1 = Random.Range(0, 4);
+        int index2 = Random.Range(0, 4);
+        while (index2 == index1) {
+            index2 = Random.Range(0, 4);
+        }
+        Dir key1 = controlSubstitute.ElementAt(index1).Key;
+        Dir key2 = controlSubstitute.ElementAt(index2).Key;
+        Dir val1 = controlSubstitute.ElementAt(index1).Value;
+        Dir val2 = controlSubstitute.ElementAt(index2).Value;
+        controlSubstitute[key1] = val2;
+        controlSubstitute[key2] = val1;
+
+    }
+
+    private void HardRandomizeControl() {
+        //mix all control
         for(int i=0; i<4; i++) {
             int index1 = Random.Range(0, 4);
             int index2 = Random.Range(0, 4);
@@ -61,13 +114,6 @@ public class PlayerControlManager : MonoBehaviour {
             controlSubstitute[key1] = val2;
             controlSubstitute[key2] = val1;
         }
-    }
-
-    private void BaseControl() {
-        controlSubstitute.Add(Dir.up, Dir.up);
-        controlSubstitute.Add(Dir.down, Dir.down);
-        controlSubstitute.Add(Dir.left, Dir.left);
-        controlSubstitute.Add(Dir.right, Dir.right);
     }
 
     private void ControlFromDir(Dir pressedDirection) {
@@ -113,5 +159,9 @@ public class PlayerControlManager : MonoBehaviour {
         }
         transform.position = destination;
         isMoving = false;
+    }
+
+    public Dir GetSubstituteDir(Dir initDir) {
+        return controlSubstitute[initDir];
     }
 }

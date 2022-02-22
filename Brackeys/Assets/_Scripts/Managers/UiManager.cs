@@ -12,6 +12,8 @@ public class UiManager : Singleton<UiManager> {
 
     [Header("Direction box")]
     [SerializeField]
+    private GameObject imgs;
+    [SerializeField]
     private Image upImg;
     [SerializeField]
     private Image downImg;
@@ -19,6 +21,7 @@ public class UiManager : Singleton<UiManager> {
     private Image leftImg;
     [SerializeField]
     private Image rightImg;
+    private int guideDisplay = 0;
 
     [Header("ArrowsImg")]
     [SerializeField]
@@ -33,11 +36,9 @@ public class UiManager : Singleton<UiManager> {
     [Header("ArrowsImg")]
     [SerializeField]
     private Animator fadeAnim;
-    #endregion
 
-    protected override void Awake() {
-        base.Awake();
-    }
+    private int lvl;
+    #endregion
 
     private void Start() {
         StartCoroutine(LateStart());
@@ -45,7 +46,13 @@ public class UiManager : Singleton<UiManager> {
 
     private IEnumerator LateStart() {
         yield return new WaitForSeconds(0.01f);
-        lvlTerrain.text = "Level : " + Player.Instance.level;
+        lvl = Player.Instance.level;
+        lvlTerrain.text = "Level : " + lvl ;
+        if (lvl <= 5) {
+            ShowAllGuide();
+        } else if (lvl >= 20) {
+            imgs.SetActive(false);
+        }
     }
 
     public void Home() {
@@ -73,6 +80,13 @@ public class UiManager : Singleton<UiManager> {
     }
 
     public void AddDirectionGuide(PlayerControlManager.Dir inputDir, PlayerControlManager.Dir corespondingDir ) {
+        if (lvl >=20) { // no guid for high lvl
+            return;
+        } else if (guideDisplay == 4) { // all arrows are displayed
+            return;
+        } else if (guideDisplay == 1 && Player.Instance.level <= 10) {
+            ShowAllGuide();
+        }
         Image inputImg = upImg;
         switch (inputDir) {
             case PlayerControlManager.Dir.up:
@@ -93,6 +107,13 @@ public class UiManager : Singleton<UiManager> {
         if (inputImg.enabled) {
             return;
         }
+        Sprite arrowImg = GetCorespondingSprite(corespondingDir);
+        inputImg.sprite = arrowImg;
+        inputImg.enabled = true;
+        guideDisplay++;
+    }
+
+    private Sprite GetCorespondingSprite(PlayerControlManager.Dir corespondingDir) {
         Sprite arrowImg = arrow_up;
         switch (corespondingDir) {
             case PlayerControlManager.Dir.up:
@@ -108,8 +129,31 @@ public class UiManager : Singleton<UiManager> {
                 arrowImg = arrow_right;
                 break;
         }
-        inputImg.sprite = arrowImg;
-        inputImg.enabled = true;
+        return arrowImg;
+    }
+
+    private void ShowAllGuide() {
+        if (!upImg.enabled) {
+            upImg.enabled = true;
+            Sprite arrowImg = GetCorespondingSprite(PlayerControlManager.Instance.GetSubstituteDir(PlayerControlManager.Dir.up));
+            upImg.sprite = arrowImg;
+        }
+        if (!downImg.enabled) {
+            downImg.enabled = true;
+            Sprite arrowImg = GetCorespondingSprite(PlayerControlManager.Instance.GetSubstituteDir(PlayerControlManager.Dir.down));
+            downImg.sprite = arrowImg;
+        }
+        if (!leftImg.enabled) {
+            leftImg.enabled = true;
+            Sprite arrowImg = GetCorespondingSprite(PlayerControlManager.Instance.GetSubstituteDir(PlayerControlManager.Dir.left));
+            leftImg.sprite = arrowImg;
+        }
+        if (!rightImg.enabled) {
+            rightImg.enabled = true;
+            Sprite arrowImg = GetCorespondingSprite(PlayerControlManager.Instance.GetSubstituteDir(PlayerControlManager.Dir.right));
+            rightImg.sprite = arrowImg;
+        }
+        guideDisplay = 4;
     }
 
 }

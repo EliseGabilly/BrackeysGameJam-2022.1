@@ -58,7 +58,7 @@ public class WallSpawner : Singleton<WallSpawner> {
         GameObject end = Instantiate(endPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
         end.transform.parent = environementParent;
         sr = end.GetComponentInChildren<SpriteRenderer>();
-        sr.sortingOrder = arenaSize - y;
+        sr.sortingOrder = arenaSize - y -1 ;
         obstacles[x][y] = end;
 
         // add x obstacles on free square
