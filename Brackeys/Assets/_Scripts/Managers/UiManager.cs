@@ -29,6 +29,10 @@ public class UiManager : Singleton<UiManager> {
     private Sprite arrow_left;
     [SerializeField]
     private Sprite arrow_right;
+
+    [Header("ArrowsImg")]
+    [SerializeField]
+    private Animator fadeAnim;
     #endregion
 
     protected override void Awake() {
@@ -40,11 +44,27 @@ public class UiManager : Singleton<UiManager> {
     }
 
     public void Home() {
+        StartCoroutine(LoadHomeAfterFade());
+    }
+
+    private IEnumerator LoadHomeAfterFade() {
+        fadeAnim.SetTrigger("fadeIn");
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene("Menu");
     }
 
     public void Restart() {
+        StartCoroutine(RestartAfterFade());
+    }
+
+    private IEnumerator RestartAfterFade() {
+        fadeAnim.SetTrigger("fadeIn");
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void PlayFadeInAnim() {
+        fadeAnim.SetTrigger("fadeIn");
     }
 
     public void AddDirectionGuide(PlayerControlManager.Dir inputDir, PlayerControlManager.Dir corespondingDir ) {
