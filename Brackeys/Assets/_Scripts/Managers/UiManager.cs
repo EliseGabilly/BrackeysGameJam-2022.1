@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager> {
@@ -22,4 +23,11 @@ public class UiManager : Singleton<UiManager> {
         lvlTerrain.text = "Level : " + Player.Instance.level;
     }
 
+    public void Home() {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void Restart() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
