@@ -7,6 +7,11 @@ using UnityEngine.UI;
 public class MenuUiManager : Singleton<MenuUiManager> {
 
     #region Variables
+    [Header("Toggle")]
+    [SerializeField]
+    private Toggle musicToggle;
+    [SerializeField]
+    private Toggle soundToggle;
     [Header("Panels")]
     [SerializeField]
     private Canvas main;
@@ -18,6 +23,11 @@ public class MenuUiManager : Singleton<MenuUiManager> {
     private Canvas credit;
 
     #endregion
+
+    private void Start() {
+        musicToggle.isOn = Player.Instance.isMusicOn;
+        soundToggle.isOn = Player.Instance.isSoundOn;
+    }
 
     public void Play() {
         SceneManager.LoadScene("Game");
@@ -43,6 +53,16 @@ public class MenuUiManager : Singleton<MenuUiManager> {
     public void OpenCredit() {
         main.enabled = false;
         credit.enabled = true;
+    }
+
+    public void ToggleSound() {
+        Player.Instance.ChangeSound();
+        AudioSystem.Instance.TurnSoundOn(soundToggle.isOn);
+    }
+
+    public void ToggleMusic() {
+        Player.Instance.ChangeMusic();
+        AudioSystem.Instance.TurnMusicOn(musicToggle.isOn);
     }
 
     public void Quit() {

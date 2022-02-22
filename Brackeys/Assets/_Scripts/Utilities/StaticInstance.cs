@@ -1,9 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// A static instance is similar to a singleton, but instead of destroying any new
-/// instances, it overrides the current instance. This is handy for resetting the state
-/// and saves you doing it manually
+/// Static instance is similar to a singleton that overrides the current instance
 /// </summary>
 public abstract class StaticInstance<T> : MonoBehaviour where T : MonoBehaviour {
     public static T Instance { get; private set; }
@@ -16,8 +14,7 @@ public abstract class StaticInstance<T> : MonoBehaviour where T : MonoBehaviour 
 }
 
 /// <summary>
-/// This transforms the static instance into a basic singleton. This will destroy any new
-/// versions created, leaving the original instance intact
+/// Singleton that destroy any new versions and keep the original instance 
 /// </summary>
 public abstract class Singleton<T> : StaticInstance<T> where T : MonoBehaviour {
     protected override void Awake() {
@@ -27,19 +24,19 @@ public abstract class Singleton<T> : StaticInstance<T> where T : MonoBehaviour {
 }
 
 /// <summary>
-/// Finally we have a persistent version of the singleton. This will survive through scene
-/// loads. Perfect for system classes which require stateful, persistent data. Or audio sources
-/// where music plays through loading screens, etc
+/// Persistent singleton that survive through scene loads
 /// </summary>
-public abstract class PersistentSingleton<T> : MonoBehaviour where T : MonoBehaviour {
-    public static T Instance { get; private set; }
+public abstract class PersistentSingleton<T> : MonoBehaviour {
 
-    protected void Awake() {
-        if (Instance != null && Instance != this)
-            Destroy(this.gameObject);
-        else {
-            Instance = this as T;
+    public static PersistentSingleton<T> Instance;
+
+    void Awake() {
+        if (!Instance) {
+            Instance = this;
             DontDestroyOnLoad(gameObject);
+        } else {
+            Destroy(gameObject);
         }
     }
 }
+

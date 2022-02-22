@@ -95,6 +95,7 @@ public class PlayerControlManager : MonoBehaviour {
 
     private void MoveToward(Vector2 direction) {
         RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, direction);
+        AudioSystem.Instance.PlayHit();
         if (hit.collider != null) {
             isMoving = true;
             Vector2 destination = hit.collider.gameObject.CompareTag("Finish") ? hit.point + direction / 2 : hit.point - direction / 2;
