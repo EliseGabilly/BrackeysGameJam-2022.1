@@ -1,3 +1,5 @@
+using UnityEngine;
+
 /// <summary>
 /// Player class containing the information that are "translated" in playerdata then saved
 /// </summary>

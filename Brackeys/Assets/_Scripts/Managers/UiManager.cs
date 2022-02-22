@@ -40,6 +40,11 @@ public class UiManager : Singleton<UiManager> {
     }
 
     private void Start() {
+        StartCoroutine(LateStart());
+    }
+
+    private IEnumerator LateStart() {
+        yield return new WaitForSeconds(0.01f);
         lvlTerrain.text = "Level : " + Player.Instance.level;
     }
 

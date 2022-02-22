@@ -22,21 +22,3 @@ public abstract class Singleton<T> : StaticInstance<T> where T : MonoBehaviour {
         base.Awake();
     }
 }
-
-/// <summary>
-/// Persistent singleton that survive through scene loads
-/// </summary>
-public abstract class PersistentSingleton<T> : MonoBehaviour {
-
-    public static PersistentSingleton<T> Instance;
-
-    void Awake() {
-        if (!Instance) {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        } else {
-            Destroy(gameObject);
-        }
-    }
-}
-
