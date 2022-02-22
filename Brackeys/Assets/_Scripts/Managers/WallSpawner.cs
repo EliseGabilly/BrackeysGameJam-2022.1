@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,7 +5,17 @@ public class WallSpawner : MonoBehaviour {
 
     #region Variables
     [SerializeField]
+    private GameObject playerPrefab;
+    [SerializeField]
+    private GameObject endPrefab;
+    [SerializeField]
+    private Transform environementParent;
+    [SerializeField]
+    private int obstaclesNb = 3;
+    [SerializeField]
     private int arenaSize = 5;
+    private GameObject[][] obstacles;
+
 
     #endregion
 
@@ -15,6 +23,49 @@ public class WallSpawner : MonoBehaviour {
     private void Start() {
         GenerateFloor();
         GenerateWalls();
+        GenerateObtacles();
+    }
+
+    private void GenerateObtacles() {
+        //init array table to 
+        obstacles = new GameObject[arenaSize][];
+        for(int i=0; i<obstacles.Length; i++) {
+            obstacles[i] = new GameObject[arenaSize];
+        }
+        // add player in the midel of the arena
+        int xPlayer = Random.Range(1, arenaSize - 1);
+        int yPlayer = Random.Range(1, arenaSize - 1);
+        GameObject spawn = Instantiate(playerPrefab, new Vector3(xPlayer + 0.5f, yPlayer + 0.5f, 0), Quaternion.identity) as GameObject;
+        spawn.transform.parent = environementParent;
+        obstacles[xPlayer][yPlayer] = spawn;
+
+        // add end but not on the same line/column as the player
+        int x = Random.Range(0, arenaSize);
+        while (x == xPlayer) {
+            x = Random.Range(0, arenaSize);
+        }
+        int y = Random.Range(0, arenaSize);
+        while (y == yPlayer) {
+            y = Random.Range(0, arenaSize);
+        }
+        GameObject end = Instantiate(endPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
+        end.transform.parent = environementParent;
+        obstacles[x][y] = end;
+
+        // add x obstacles on free square
+        GameObject obstacle;
+        for (int i=0; i<23; i++) { //TODO use nb obstacle
+            x = Random.Range(0, arenaSize);
+            y = Random.Range(0, arenaSize);
+            while (obstacles[x][y] != null) {
+                x = Random.Range(0, arenaSize);
+                y = Random.Range(0, arenaSize);
+            }
+            obstacle = Instantiate(TileAccess.Instance.GetRandomObstaclesStone(), new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
+            obstacle.transform.parent = TileAccess.Instance.GetObstacle().transform;
+            obstacles[x][y] = obstacle;
+
+        }
     }
 
     private void GenerateFloor() {
@@ -70,7 +121,6 @@ public class WallSpawner : MonoBehaviour {
         p = new Vector3Int(arenaSize, arenaSize+1, 0);
         tile = TileAccess.Instance.GetWallTopRight();
         tilemap.SetTile(p, tile);
-
     }
 
 
