@@ -10,6 +10,7 @@ public class PlayerControlManager : MonoBehaviour {
     private bool isMoving = false;
 
     private Animator anim;
+    private SpriteRenderer sr;
 
     [SerializeField]
     private bool isControlRandom = true;
@@ -20,6 +21,7 @@ public class PlayerControlManager : MonoBehaviour {
 
     private void Awake() {
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     private void Start() {
@@ -94,7 +96,7 @@ public class PlayerControlManager : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, direction);
         if (hit.collider != null) {
             isMoving = true;
-            Vector2 destination = hit.point - direction/2;
+            Vector2 destination = hit.collider.gameObject.CompareTag("Finish") ? hit.point + direction / 2 : hit.point - direction / 2;
             StartCoroutine(GoToDestination(destination));
         }
     }
@@ -104,6 +106,7 @@ public class PlayerControlManager : MonoBehaviour {
         while (timeElapsed < lerpDuration) {
             transform.position = Vector2.Lerp(transform.position, destination, timeElapsed / lerpDuration);
             timeElapsed += Time.deltaTime;
+            sr.sortingOrder = WallSpawner.Instance.GetArenaSize() - Mathf.FloorToInt(transform.position.y);
             yield return null;
         }
         transform.position = destination;

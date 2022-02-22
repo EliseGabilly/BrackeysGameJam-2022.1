@@ -9,6 +9,8 @@ public class TileAccess : Singleton<TileAccess> {
     [SerializeField]
     private Tilemap floor;
     [SerializeField]
+    private Tilemap topWall;
+    [SerializeField]
     private Tilemap wall;
     [SerializeField]
     private GameObject obstacles;
@@ -46,6 +48,9 @@ public class TileAccess : Singleton<TileAccess> {
 
     public Tilemap GetFloor() {
         return floor;
+    }
+    public Tilemap GetTopWall() {
+        return topWall;
     }
     public Tilemap GetWall() {
         return wall;

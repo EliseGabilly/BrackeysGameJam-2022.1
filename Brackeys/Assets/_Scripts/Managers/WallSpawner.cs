@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class WallSpawner : MonoBehaviour {
+public class WallSpawner : Singleton<WallSpawner> {
 
     #region Variables
     [SerializeField]
@@ -37,6 +37,8 @@ public class WallSpawner : MonoBehaviour {
         int yPlayer = Random.Range(1, arenaSize - 1);
         GameObject spawn = Instantiate(playerPrefab, new Vector3(xPlayer + 0.5f, yPlayer + 0.5f, 0), Quaternion.identity) as GameObject;
         spawn.transform.parent = environementParent;
+        SpriteRenderer sr = spawn.GetComponentInChildren<SpriteRenderer>();
+        sr.sortingOrder = arenaSize - yPlayer;
         obstacles[xPlayer][yPlayer] = spawn;
 
         // add end but not on the same line/column as the player
@@ -50,11 +52,13 @@ public class WallSpawner : MonoBehaviour {
         }
         GameObject end = Instantiate(endPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
         end.transform.parent = environementParent;
+        sr = end.GetComponentInChildren<SpriteRenderer>();
+        sr.sortingOrder = arenaSize - y;
         obstacles[x][y] = end;
 
         // add x obstacles on free square
         GameObject obstacle;
-        for (int i=0; i<23; i++) { //TODO use nb obstacle
+        for (int i=0; i<obstaclesNb; i++) { 
             x = Random.Range(0, arenaSize);
             y = Random.Range(0, arenaSize);
             while (obstacles[x][y] != null) {
@@ -63,6 +67,8 @@ public class WallSpawner : MonoBehaviour {
             }
             obstacle = Instantiate(TileAccess.Instance.GetRandomObstaclesStone(), new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
             obstacle.transform.parent = TileAccess.Instance.GetObstacle().transform;
+            sr = obstacle.GetComponentInChildren<SpriteRenderer>();
+            sr.sortingOrder = arenaSize-y;
             obstacles[x][y] = obstacle;
 
         }
@@ -80,6 +86,7 @@ public class WallSpawner : MonoBehaviour {
     }
     private void GenerateWalls() {
         Tilemap tilemap = TileAccess.Instance.GetWall();
+        Tilemap tilemapTopWall = TileAccess.Instance.GetTopWall();
         Vector3Int p;
         Tile tile;
 
@@ -91,19 +98,19 @@ public class WallSpawner : MonoBehaviour {
         for (int i = 0; i < arenaSize; i++) { //lower top
             p = new Vector3Int(i, arenaSize, 0);
             tile = TileAccess.Instance.GetRandomWallLowerTop();
-            tilemap.SetTile(p, tile);
+            tilemapTopWall.SetTile(p, tile);
         }
         for (int i = 0; i < arenaSize; i++) { //upper top
             p = new Vector3Int(i, arenaSize+1, 0);
             tile = TileAccess.Instance.GetRandomWallUpperTop();
-            tilemap.SetTile(p, tile);
+            tilemapTopWall.SetTile(p, tile);
         }
-        for (int i = 0; i < arenaSize+1; i++) { //bottom
+        for (int i = 0; i < arenaSize+1; i++) { //left
             p = new Vector3Int(-1, i, 0);
             tile = TileAccess.Instance.GetRandomWallLeft();
             tilemap.SetTile(p, tile);
         }
-        for (int i = 0; i < arenaSize+1; i++) { //lower top
+        for (int i = 0; i < arenaSize+1; i++) { //right
             p = new Vector3Int(arenaSize, i, 0);
             tile = TileAccess.Instance.GetRandomWallRight();
             tilemap.SetTile(p, tile);
@@ -123,5 +130,8 @@ public class WallSpawner : MonoBehaviour {
         tilemap.SetTile(p, tile);
     }
 
+    public int GetArenaSize() {
+        return arenaSize;
+    }
 
 }
