@@ -360,7 +360,7 @@ MonoBehaviour:
   endPrefab: {fileID: 5386753654850377745, guid: ee5bd84be024cb44aab90ef388a09542, type: 3}
   environementParent: {fileID: 874350840}
   obstaclesNb: 3
-  arenaSize: 5
+  arenaSize: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,14 +16,19 @@ public class WallSpawner : Singleton<WallSpawner> {
     private int arenaSize = 5;
     private GameObject[][] obstacles;
 
-
+    private Camera mainCamera;
     #endregion
 
+    protected override void Awake() {
+        base.Awake();
+        mainCamera = Camera.main;
+    }
 
     private void Start() {
         GenerateFloor();
         GenerateWalls();
         GenerateObtacles();
+        FitCamera();
     }
 
     private void GenerateObtacles() {
@@ -130,8 +135,24 @@ public class WallSpawner : Singleton<WallSpawner> {
         tilemap.SetTile(p, tile);
     }
 
+    private void FitCamera() {
+        mainCamera.transform.position = new Vector3(arenaSize / 2f, arenaSize / 2f, -10);
+        Vector3 topLeft = new Vector3(arenaSize+0.2f, arenaSize+2, 0);
+        Vector3 bottomRight = new Vector3(-0.2f, -0.2f, 0);
+
+        mainCamera.orthographicSize = 1;
+        Vector3 cameraTopLeft = mainCamera.ScreenToWorldPoint(new Vector3(mainCamera.pixelWidth, mainCamera.pixelHeight, -mainCamera.transform.position.z));
+        Vector3 cameraBottomRight = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -mainCamera.transform.position.z));
+        bool isInFrame = topLeft.x < cameraTopLeft.x && topLeft.y < cameraTopLeft.y && bottomRight.x > cameraBottomRight.x && bottomRight.y > cameraBottomRight.y;
+        while (!isInFrame) {
+            mainCamera.orthographicSize ++;
+            cameraTopLeft = mainCamera.ScreenToWorldPoint(new Vector3(mainCamera.pixelWidth, mainCamera.pixelHeight, -mainCamera.transform.position.z));
+            cameraBottomRight = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, -mainCamera.transform.position.z));
+            isInFrame = topLeft.x < cameraTopLeft.x && topLeft.y < cameraTopLeft.y && bottomRight.x > cameraBottomRight.x && bottomRight.y > cameraBottomRight.y;
+        }
+    }
+
     public int GetArenaSize() {
         return arenaSize;
     }
-
 }
