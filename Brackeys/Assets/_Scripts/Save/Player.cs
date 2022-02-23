@@ -20,6 +20,7 @@ public class Player : Singleton<Player> {
 
     public void ChangeLvl(int change) {
         level += change;
+        level = Mathf.Max(1, level);
         SaveSystem.SavePlayer(this);
     }
     public void ChangeSound() {

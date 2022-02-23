@@ -21,12 +21,21 @@ public class MenuUiManager : Singleton<MenuUiManager> {
     private Canvas rules;
     [SerializeField]
     private Canvas credit;
+    [Header("Level")]
+    [SerializeField]
+    private Text lvlTxt;
 
     #endregion
 
     private void Start() {
         musicToggle.isOn = Player.Instance.isMusicOn;
         soundToggle.isOn = Player.Instance.isSoundOn;
+        StartCoroutine(LvlUpdate());
+    }
+
+    private IEnumerator LvlUpdate() {
+        yield return new WaitForSeconds(0.2f);
+        lvlTxt.text = "Level : "+Player.Instance.level;
     }
 
     public void Play() {
@@ -67,6 +76,12 @@ public class MenuUiManager : Singleton<MenuUiManager> {
 
     public void Quit() {
         Application.Quit();
+    }
+
+    public void BtnChangeLvl(int change) {
+        Player.Instance.ChangeLvl(change);
+        lvlTxt.text = "Level : " + Player.Instance.level;
+        StartCoroutine(LvlUpdate());
     }
 
 }
