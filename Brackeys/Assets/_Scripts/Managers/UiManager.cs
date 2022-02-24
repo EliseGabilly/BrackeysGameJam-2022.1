@@ -85,6 +85,9 @@ public class UiManager : Singleton<UiManager> {
     }
 
     private void Update() {
+        if (Input.GetKeyDown(KeyCode.R)) {
+            Restart();
+        }
         if (isDialogueOn) {
             if (Input.GetKeyDown(KeyCode.Space)) {
                 CloseLine();

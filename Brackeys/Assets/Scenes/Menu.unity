@@ -2485,7 +2485,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084681742}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -3071,12 +3071,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "<b>The goal: </b>\r\nLead Nolwenn on the circular platform.\r\n\r\n<b>Move
-    around : </b>\r\nUse the arrow buttons. (careful : as the level increases, the
-    directions will change from one level to another)\r\n\r\n<b>Obstacles : </b>\r\nObstacles
-    block the way of Nolwenn. The stone ones appear at the loading of a level and
-    you can\u2019t interact with them. Wooden or ceramic obstacles appear as you
-    go along, they can be destroyed if you click on them.\r"
+  m_Text: "<b>The goal: </b>\r\nLead Nolwenn on the circular platform.\r\n\r\n<b>Obstacles
+    : </b>\r\nObstacles block the way of Nolwenn. The stone ones appear at the loading
+    of a level and you can\u2019t interact with them. Wooden or ceramic obstacles
+    appear as you go along, they can be destroyed if you click on them.\r\n\r\n<b>Controls
+    : </b>\r\n[arrow] to slide in this direction (careful : as the level increases,
+    the directions will change from one level to another)\r\n[R] to restart a level
+    (randomly generated at each start)\n[Space] to pass dialogue\n[WASD] to hit wooden
+    or ceramic obstacles"
 --- !u!222 &1200650932
 CanvasRenderer:
   m_ObjectHideFlags: 0

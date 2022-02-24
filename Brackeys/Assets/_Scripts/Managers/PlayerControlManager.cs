@@ -13,7 +13,6 @@ public class PlayerControlManager : Singleton<PlayerControlManager> {
     private SpriteRenderer sr;
 
     [SerializeField]
-    private bool isControlRandom = true;
     private Dictionary<Dir, Dir> controlSubstitute;
     public enum Dir { up, down, left, right, stop};
 
