@@ -37,7 +37,27 @@ public class UiManager : Singleton<UiManager> {
     [SerializeField]
     private Animator fadeAnim;
 
+    [Header("Dialogue")]
+    [SerializeField]
+    private GameObject dialogueBox;
+    [SerializeField]
+    private Text characterName;
+    [SerializeField]
+    private Text lineText;
+    [SerializeField]
+    private Image characterImg;
+    [SerializeField]
+    private Sprite nolwennImg;
+    [SerializeField]
+    private Sprite darkImg;
+    [SerializeField]
+    private Sprite stephImg;
+
     private int lvl;
+    private bool isDialogueOn = false;
+    private DialogueManager.LvlDialogue lvlDialogue;
+    private int dialogueLineCount = 0;
+    private int dialogueLineLeft = 0;
     #endregion
 
     private void Start() {
@@ -52,6 +72,30 @@ public class UiManager : Singleton<UiManager> {
             ShowAllGuide();
         } else if (lvl >= 20) {
             imgs.SetActive(false);
+        }
+
+        lvlDialogue = DialogueManager.Instance.ShowLvlDialogue(lvl);
+        if (lvlDialogue != null) {
+            PlayerControlManager.Instance.FreezeForDialogue(true);
+            isDialogueOn = true;
+            dialogueLineLeft = lvlDialogue.GetLines().Count;
+            dialogueLineCount = dialogueLineLeft;
+            OpenNextLine();
+        }
+    }
+
+    private void Update() {
+        if (isDialogueOn) {
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                CloseLine();
+                if (dialogueLineLeft == 0) {
+                    PlayerControlManager.Instance.FreezeForDialogue(false);
+                    isDialogueOn = false;
+                } else {
+                    OpenNextLine();
+                }
+
+            }
         }
     }
 
@@ -154,6 +198,26 @@ public class UiManager : Singleton<UiManager> {
             rightImg.sprite = arrowImg;
         }
         guideDisplay = 4;
+    }
+
+    private void OpenNextLine() {
+        DialogueManager.DialogueLigne dialogueLigne = lvlDialogue.GetLines()[dialogueLineCount- dialogueLineLeft];
+        dialogueBox.SetActive(true);
+        string name = dialogueLigne.GetCharacter();
+        characterName.text = name;
+        lineText.text = dialogueLigne.GetLine();
+        Sprite img = nolwennImg;
+        if (name.ToLower().Equals("dark")) {
+            img = darkImg;
+        } else if (name.ToLower().Equals("steph")) {
+            img = stephImg;
+        }
+        characterImg.sprite = img;
+    }
+
+    private void CloseLine() {
+        dialogueLineLeft--;
+        dialogueBox.SetActive(false);
     }
 
 }

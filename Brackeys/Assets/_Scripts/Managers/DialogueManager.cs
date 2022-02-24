@@ -30,7 +30,7 @@ public class DialogueManager : Singleton<DialogueManager> {
     }
 
     private LvlDialogue GetLvlDialogueOfLvl(int lvl) {
-        foreach(LvlDialogue lvlDialogue in lvlDialogues) {
+        foreach (LvlDialogue lvlDialogue in lvlDialogues) {
             if (lvlDialogue.GetLvl() == lvl) return lvlDialogue;
         }
         LvlDialogue lvlDiag = new LvlDialogue(lvl);
@@ -38,7 +38,27 @@ public class DialogueManager : Singleton<DialogueManager> {
         return lvlDiag;
     }
 
-    private class LvlDialogue {
+    public LvlDialogue ShowLvlDialogue(int lvl) {
+        LvlDialogue lvlDiag = null;
+        foreach (LvlDialogue lvlDialogue in lvlDialogues) {
+            if (lvlDialogue.GetLvl() == lvl) {
+                lvlDiag = lvlDialogue;
+                break;
+            }
+        }
+        return lvlDiag;
+    }
+
+    public bool HaveLvlDialogue(int lvl) {
+        foreach (LvlDialogue lvlDialogue in lvlDialogues) {
+            if (lvlDialogue.GetLvl() == lvl) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public class LvlDialogue {
         int lvl;
         List<DialogueLigne> lines;
 
@@ -60,7 +80,7 @@ public class DialogueManager : Singleton<DialogueManager> {
         }
     }
 
-    private class DialogueLigne {
+    public class DialogueLigne {
         string character;
         string line;
 

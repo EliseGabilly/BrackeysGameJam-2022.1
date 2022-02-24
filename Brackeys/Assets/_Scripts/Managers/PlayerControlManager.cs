@@ -164,4 +164,12 @@ public class PlayerControlManager : Singleton<PlayerControlManager> {
     public Dir GetSubstituteDir(Dir initDir) {
         return controlSubstitute[initDir];
     }
+
+    /// <summary>
+    /// use to freeze the movement until the dialogue are over
+    /// </summary>
+    /// <param name="isMoving"></param>
+    public void FreezeForDialogue(bool isFreeze) {
+        this.isMoving = isFreeze;
+    }
 }
