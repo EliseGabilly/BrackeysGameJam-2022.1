@@ -929,12 +929,12 @@ MonoBehaviour:
   wallTiles_bottomleft: {fileID: 11400000, guid: de17a1cff7186dc4e81bd03c2256da56, type: 2}
   wallTiles_bottomright: {fileID: 11400000, guid: 2af854022baea474ba380cc6be59d552, type: 2}
   obstacles_wood:
-  - {fileID: 2055102311959635369, guid: 413081fc53a78a043b38591243616398, type: 3}
-  - {fileID: 2577585254963922480, guid: f3cc2373308c11848977b28d974a9de0, type: 3}
-  - {fileID: 2577585254963922480, guid: 63ee4b6a40c55fd429759b807832ded1, type: 3}
-  - {fileID: 8150476868300563372, guid: 2e2ac125e54a1e44780363d638b1df34, type: 3}
-  - {fileID: 2577585254963922480, guid: fb2df5b680b64b449a78162ebcd98e97, type: 3}
-  - {fileID: 2577585254963922480, guid: ac719b1d0f58391469cc19fd947ca44c, type: 3}
+  - {fileID: 8554894982044923338, guid: c8450c6c06a8d7e4a9957f37a5b547f6, type: 3}
+  - {fileID: 5369646942611951199, guid: 1728057f01d1865498dfd115ff1ed119, type: 3}
+  - {fileID: 5823000254958415464, guid: 687dd6473c6212d48ae1881f55b3b281, type: 3}
+  - {fileID: 5840654298420438141, guid: 289e311416041c94198e7d3da02a3b77, type: 3}
+  - {fileID: 8303867078024333598, guid: 26675c214dca1534a8c5301da5cdd712, type: 3}
+  - {fileID: 6704810985562933999, guid: 1a2052ac9aaedfd4e96d64ac9b9fb61e, type: 3}
   obstacles_stone:
   - {fileID: 3051864177377262431, guid: 1152344fe8ed9024b9aa04f9fefdad0d, type: 3}
   - {fileID: 7665741078834316509, guid: 7e858c06fd093c74e899b6d182758cb8, type: 3}
@@ -1631,25 +1631,25 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 0
-      e01: -2.6816604e-12
-      e02: -2.6814696e-12
-      e03: -2.6814696e-12
-      e10: 0
-      e11: 2.07e-43
-      e12: 2.07e-43
-      e13: 2.07e-43
-      e20: 9.912952e-25
-      e21: -1.0864997e-19
-      e22: -3.9599094
-      e23: -1.0864997e-19
+      e00: 2.5244127e-29
+      e01: 1.1720162e-27
+      e02: 1.1719315e-27
+      e03: 1.1719315e-27
+      e10: 4.4e-43
+      e11: 3.5e-44
+      e12: 3.5e-44
+      e13: 3.5e-44
+      e20: 1.0486767e+21
+      e21: -3.0461567e-29
+      e22: -9.1998276e-10
+      e23: -3.0461567e-29
       e30: 4.5904e-41
-      e31: 8.34e-43
-      e32: 8.31e-43
-      e33: 8.34e-43
+      e31: 4.41e-43
+      e32: 4.39e-43
+      e33: 4.41e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: -1.0864604e-19, g: -1.0864604e-19, b: -1.0864604e-19, a: -1.0864604e-19}
+    m_Data: {r: -2.8431733e-29, g: -2.8431733e-29, b: -2.8431733e-29, a: -2.8431733e-29}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}

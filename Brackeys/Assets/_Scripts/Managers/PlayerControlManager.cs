@@ -158,6 +158,7 @@ public class PlayerControlManager : Singleton<PlayerControlManager> {
         }
         transform.position = destination;
         isMoving = false;
+        WallSpawner.Instance.MovePlayerTo(destination);
     }
 
     public Dir GetSubstituteDir(Dir initDir) {

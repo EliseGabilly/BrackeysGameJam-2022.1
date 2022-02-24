@@ -17,6 +17,8 @@ public class WallSpawner : Singleton<WallSpawner> {
     private GameObject[][] obstacles;
 
     private Camera mainCamera;
+    private int newObstacleDecompte = 3;
+    private Vector2Int playerPreviousPos;
     #endregion
 
     protected override void Awake() {
@@ -45,6 +47,7 @@ public class WallSpawner : Singleton<WallSpawner> {
         SpriteRenderer sr = spawn.GetComponentInChildren<SpriteRenderer>();
         sr.sortingOrder = arenaSize - yPlayer;
         obstacles[xPlayer][yPlayer] = spawn;
+        playerPreviousPos = new Vector2Int(xPlayer, yPlayer);
 
         // add end but not on the same line/column as the player
         int x = Random.Range(0, arenaSize);
@@ -155,4 +158,30 @@ public class WallSpawner : Singleton<WallSpawner> {
     public int GetArenaSize() {
         return arenaSize;
     }
+
+    public void MovePlayerTo(Vector2 playerPos) {
+        obstacles[Mathf.FloorToInt(playerPos.x)][Mathf.FloorToInt(playerPos.y)] = obstacles[playerPreviousPos.x][playerPreviousPos.y];
+        obstacles[playerPreviousPos.x][playerPreviousPos.y] = null;
+        newObstacleDecompte--;
+        if(newObstacleDecompte == 0) {
+            newObstacleDecompte = 3;
+            SpawnWoodenObstacles();
+        }
+    }
+
+    private void SpawnWoodenObstacles() {
+        int x = Random.Range(0, arenaSize);
+        int y = Random.Range(0, arenaSize);
+        while (obstacles[x][y] != null) {
+            x = Random.Range(0, arenaSize);
+            y = Random.Range(0, arenaSize);
+        }
+        GameObject obstacle = Instantiate(TileAccess.Instance.GetRandomObstaclesWood(), new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
+        obstacle.transform.parent = TileAccess.Instance.GetObstacle().transform;
+        SpriteRenderer sr = obstacle.GetComponentInChildren<SpriteRenderer>();
+        sr.sortingOrder = arenaSize - y;
+        obstacles[x][y] = obstacle;
+    }
+
+
 }
