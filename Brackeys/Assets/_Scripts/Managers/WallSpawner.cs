@@ -14,7 +14,7 @@ public class WallSpawner : Singleton<WallSpawner> {
     private int obstaclesNb = 3;
     [SerializeField]
     private int arenaSize = 5;
-    private GameObject[][] obstacles;
+    private int[][] obstacles;
 
     private Camera mainCamera;
     private int newObstacleDecompte = 3;
@@ -35,9 +35,9 @@ public class WallSpawner : Singleton<WallSpawner> {
 
     private void GenerateObtacles() {
         //init array table to 
-        obstacles = new GameObject[arenaSize][];
+        obstacles = new int[arenaSize][];
         for(int i=0; i<obstacles.Length; i++) {
-            obstacles[i] = new GameObject[arenaSize];
+            obstacles[i] = new int[arenaSize];
         }
         // add player in the midel of the arena
         int xPlayer = Random.Range(1, arenaSize - 1);
@@ -46,7 +46,7 @@ public class WallSpawner : Singleton<WallSpawner> {
         spawn.transform.parent = environementParent;
         SpriteRenderer sr = spawn.GetComponentInChildren<SpriteRenderer>();
         sr.sortingOrder = arenaSize - yPlayer;
-        obstacles[xPlayer][yPlayer] = spawn;
+        obstacles[xPlayer][yPlayer] = 1;
         playerPreviousPos = new Vector2Int(xPlayer, yPlayer);
 
         // add end but not on the same line/column as the player
@@ -62,14 +62,14 @@ public class WallSpawner : Singleton<WallSpawner> {
         end.transform.parent = environementParent;
         sr = end.GetComponentInChildren<SpriteRenderer>();
         sr.sortingOrder = arenaSize - y -1 ;
-        obstacles[x][y] = end;
+        obstacles[x][y] = 1;
 
         // add x obstacles on free square
         GameObject obstacle;
         for (int i=0; i<obstaclesNb; i++) { 
             x = Random.Range(0, arenaSize);
             y = Random.Range(0, arenaSize);
-            while (obstacles[x][y] != null) {
+            while (obstacles[x][y] == 1) {
                 x = Random.Range(0, arenaSize);
                 y = Random.Range(0, arenaSize);
             }
@@ -77,7 +77,7 @@ public class WallSpawner : Singleton<WallSpawner> {
             obstacle.transform.parent = TileAccess.Instance.GetObstacle().transform;
             sr = obstacle.GetComponentInChildren<SpriteRenderer>();
             sr.sortingOrder = arenaSize-y;
-            obstacles[x][y] = obstacle;
+            obstacles[x][y] = 1;
 
         }
     }
@@ -160,8 +160,8 @@ public class WallSpawner : Singleton<WallSpawner> {
     }
 
     public void MovePlayerTo(Vector2 playerPos) {
-        obstacles[Mathf.FloorToInt(playerPos.x)][Mathf.FloorToInt(playerPos.y)] = obstacles[playerPreviousPos.x][playerPreviousPos.y];
-        obstacles[playerPreviousPos.x][playerPreviousPos.y] = null;
+        obstacles[Mathf.FloorToInt(playerPos.x)][Mathf.FloorToInt(playerPos.y)] = 1;
+        obstacles[playerPreviousPos.x][playerPreviousPos.y] = 0;
         newObstacleDecompte--;
         if(newObstacleDecompte == 0) {
             newObstacleDecompte = 3;
@@ -172,16 +172,14 @@ public class WallSpawner : Singleton<WallSpawner> {
     private void SpawnWoodenObstacles() {
         int x = Random.Range(0, arenaSize);
         int y = Random.Range(0, arenaSize);
-        while (obstacles[x][y] != null) {
+        while (obstacles[x][y] == 1) {
             x = Random.Range(0, arenaSize);
             y = Random.Range(0, arenaSize);
         }
-        GameObject obstacle = Instantiate(TileAccess.Instance.GetRandomObstaclesWood(), new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
+        GameObject obstacle = Instantiate(TileAccess.Instance.GetRandomObstaclesWood(), new Vector3(x + 0.5f, y, 0), Quaternion.identity) as GameObject;
         obstacle.transform.parent = TileAccess.Instance.GetObstacle().transform;
         SpriteRenderer sr = obstacle.GetComponentInChildren<SpriteRenderer>();
         sr.sortingOrder = arenaSize - y;
-        obstacles[x][y] = obstacle;
+        obstacles[x][y] = 1;
     }
-
-
 }
