@@ -143,14 +143,14 @@ public class PlayerControlManager : Singleton<PlayerControlManager> {
         //TODO AudioSystem.Instance.PlayHit();
         if (hit.collider != null) {
             ObstacleWood obstacleWood = hit.collider.gameObject.GetComponent<ObstacleWood>();
+            Vector2 destination = hit.collider.gameObject.CompareTag("Finish") ? hit.point + direction / 2 : hit.point - direction / 2;
             if(obstacleWood != null) {
                 obstacleWood.TakeDamage();
-                //TODO move if far + particules not on the good place
-            } else {
-                isMoving = true;
-                Vector2 destination = hit.collider.gameObject.CompareTag("Finish") ? hit.point + direction / 2 : hit.point - direction / 2;
-                StartCoroutine(GoToDestination(destination));
-            }
+                Vector2 startPos = this.gameObject.transform.position;
+                if (Vector2.Distance(startPos, destination) < 0.1) return; //if just near hit then dont move
+            } 
+            isMoving = true;
+            StartCoroutine(GoToDestination(destination));            
         }
     }
 
