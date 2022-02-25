@@ -65,7 +65,7 @@ public class UiManager : Singleton<UiManager> {
     }
 
     private IEnumerator LateStart() {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.04f);
         lvl = Player.Instance.level;
         lvlTerrain.text = "Level : " + lvl ;
         if (lvl <= 5) {

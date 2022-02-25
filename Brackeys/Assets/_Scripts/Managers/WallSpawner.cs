@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,10 +11,8 @@ public class WallSpawner : Singleton<WallSpawner> {
     private GameObject endPrefab;
     [SerializeField]
     private Transform environementParent;
-    [SerializeField]
-    private int obstaclesNb = 3;
-    [SerializeField]
-    private int arenaSize = 5;
+    private int obstaclesNb;
+    private int arenaSize;
     private int[][] obstacles;
 
     private Camera mainCamera;
@@ -27,6 +26,14 @@ public class WallSpawner : Singleton<WallSpawner> {
     }
 
     private void Start() {
+        StartCoroutine(LateStart());
+    }
+
+    private IEnumerator LateStart() {
+        yield return new WaitForSeconds(0.01f);
+        int lvl = Player.Instance.level;
+        arenaSize = lvl < 30 ? 5 : Mathf.FloorToInt(lvl / 5);
+        obstaclesNb = Mathf.FloorToInt(arenaSize * arenaSize * 0.15f);
         GenerateFloor();
         GenerateWalls();
         GenerateObtacles();
