@@ -10,11 +10,11 @@ public static class SaveSystem {
 
     private static readonly string PATH = Application.persistentDataPath + "/player.txt";
 
-    public static void SavePlayer(Player player) {
+    public static void SavePlayer() {
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(PATH, FileMode.Create);
 
-        PlayerData data = new PlayerData(player);
+        PlayerData data = new PlayerData();
 
         formatter.Serialize(stream, data);
         stream.Close();
@@ -26,7 +26,7 @@ public static class SaveSystem {
         } else {
             try {
                 //try to write a new player if first conection
-                SavePlayer(Player.Instance);
+                SavePlayer();
                 return LoadDataFromPath();
             } catch (Exception e) {
                 Debug.LogError("Save file not found (" + PATH + ") "+e.HelpLink);

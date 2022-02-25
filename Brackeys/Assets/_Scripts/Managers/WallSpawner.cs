@@ -31,7 +31,7 @@ public class WallSpawner : Singleton<WallSpawner> {
 
     private IEnumerator LateStart() {
         yield return new WaitForSeconds(0.01f);
-        int lvl = Player.Instance.level;
+        int lvl = Player.Level;
         arenaSize = lvl < 30 ? 5 : Mathf.FloorToInt(lvl / 5);
         obstaclesNb = Mathf.FloorToInt(arenaSize * arenaSize * 0.15f);
         GenerateFloor();

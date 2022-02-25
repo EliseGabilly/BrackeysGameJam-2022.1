@@ -22,3 +22,17 @@ public abstract class Singleton<T> : StaticInstance<T> where T : MonoBehaviour {
         base.Awake();
     }
 }
+
+public abstract class PersistentSingleton<T> : MonoBehaviour where T : MonoBehaviour {
+    public static T Instance { get; private set; }
+
+    protected virtual void Awake() {
+        if (Instance != null && Instance != this)
+            Destroy(this.gameObject);
+        else {
+            Instance = this as T;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+}
+

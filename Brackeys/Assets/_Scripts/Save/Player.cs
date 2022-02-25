@@ -6,30 +6,34 @@ using UnityEngine;
 public class Player : Singleton<Player> {
 
     #region Variables
-    public int level = 1;
-    public bool isSoundOn = true;
-    public bool isMusicOn = true;
+    public static int Level { get; private set; } = 1;
+    public static bool isSoundOn { get; private set; } = true;
+    public static bool isMusicOn { get; private set; } = true;
     #endregion
 
+    protected override void Awake() {
+        base.Awake();
+    }
+
     public Player ChangeData(PlayerData data) {
-        level = data.level;
+        Level = data.level;
         isSoundOn = data.isSoundOn;
         isMusicOn = data.isMusicOn;
         return this;
     }
 
     public void ChangeLvl(int change) {
-        level += change;
-        level = Mathf.Max(1, level);
-        SaveSystem.SavePlayer(this);
+        Level += change;
+        Level = Mathf.Max(1, Level);
+        SaveSystem.SavePlayer();
     }
     public void ChangeSound() {
         isSoundOn = !isSoundOn;
-        SaveSystem.SavePlayer(this);
+        SaveSystem.SavePlayer();
     }
     public void ChangeMusic() {
         isMusicOn = !isMusicOn;
-        SaveSystem.SavePlayer(this);
+        SaveSystem.SavePlayer();
     }
 
 }

@@ -43,9 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52308669265edcb40b005a7bebbea404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
-  isSoundOn: 1
-  isMusicOn: 1
 --- !u!1 &802013815
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,8 +385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3148edc559c581f4c990ce36bbdfb99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicSource: {fileID: 1461370446}
-  _soundsSource: {fileID: 802013817}
   music:
   - {fileID: 8300000, guid: 187a79f74a4d47740b904e0767fc93d7, type: 3}
   - {fileID: 8300000, guid: 66230308c44844d4baeaeb7c3e97d1eb, type: 3}

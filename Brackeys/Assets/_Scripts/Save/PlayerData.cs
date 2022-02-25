@@ -10,10 +10,10 @@ public class PlayerData {
     public bool isMusicOn;
     #endregion
 
-    public PlayerData(Player player) {
-        level = player.level;
-        isSoundOn = player.isSoundOn;
-        isMusicOn = player.isMusicOn;
+    public PlayerData() {
+        level = Player.Level;
+        isSoundOn = Player.isSoundOn;
+        isMusicOn = Player.isMusicOn;
     }
 
 }

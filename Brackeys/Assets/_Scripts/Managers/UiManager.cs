@@ -66,7 +66,7 @@ public class UiManager : Singleton<UiManager> {
 
     private IEnumerator LateStart() {
         yield return new WaitForSeconds(0.04f);
-        lvl = Player.Instance.level;
+        lvl = Player.Level;
         lvlTerrain.text = "Level : " + lvl ;
         if (lvl <= 5) {
             ShowAllGuide();
@@ -131,7 +131,7 @@ public class UiManager : Singleton<UiManager> {
             return;
         } else if (guideDisplay == 4) { // all arrows are displayed
             return;
-        } else if (guideDisplay == 1 && Player.Instance.level <= 10) {
+        } else if (guideDisplay == 1 && Player.Level <= 10) {
             ShowAllGuide();
         }
         Image inputImg = upImg;

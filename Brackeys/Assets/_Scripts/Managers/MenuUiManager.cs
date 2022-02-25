@@ -28,14 +28,14 @@ public class MenuUiManager : Singleton<MenuUiManager> {
     #endregion
 
     private void Start() {
-        musicToggle.isOn = Player.Instance.isMusicOn;
-        soundToggle.isOn = Player.Instance.isSoundOn;
+        musicToggle.isOn = Player.isMusicOn;
+        soundToggle.isOn = Player.isSoundOn;
         StartCoroutine(LvlUpdate());
     }
 
     private IEnumerator LvlUpdate() {
         yield return new WaitForSeconds(0.2f);
-        lvlTxt.text = "Level : "+Player.Instance.level;
+        lvlTxt.text = "Level : "+Player.Level;
     }
 
     public void Play() {
@@ -80,7 +80,7 @@ public class MenuUiManager : Singleton<MenuUiManager> {
 
     public void BtnChangeLvl(int change) {
         Player.Instance.ChangeLvl(change);
-        lvlTxt.text = "Level : " + Player.Instance.level;
+        lvlTxt.text = "Level : " + Player.Level;
         StartCoroutine(LvlUpdate());
     }
 

@@ -59,7 +59,7 @@ public class PlayerControlManager : Singleton<PlayerControlManager> {
     }
 
     private void RandomizeControl() {        
-        int lvl = Player.Instance.level;
+        int lvl = Player.Level;
         if (lvl <= 5) {
             return;
         } else if (lvl <= 10) {
@@ -140,7 +140,7 @@ public class PlayerControlManager : Singleton<PlayerControlManager> {
 
     private void MoveToward(Vector2 direction) {
         RaycastHit2D hit = Physics2D.Raycast(this.gameObject.transform.position, direction);
-        //TODO AudioSystem.Instance.PlayHit();
+        AudioSystem.Instance.PlayHit();
         if (hit.collider != null) {
             ObstacleWood obstacleWood = hit.collider.gameObject.GetComponent<ObstacleWood>();
             Vector2 destination = hit.collider.gameObject.CompareTag("Finish") ? hit.point + direction / 2 : hit.point - direction / 2;

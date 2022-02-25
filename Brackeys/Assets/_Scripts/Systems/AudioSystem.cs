@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Audio system support 3D sound
+/// Audio system support sound
 /// </summary>
 public class AudioSystem : StaticInstance<AudioSystem> {
 
     #region Variable
-    [SerializeField] private AudioSource _musicSource;
-    [SerializeField] private AudioSource _soundsSource;
+    private static AudioSource _musicSource;
+    private static AudioSource _soundsSource;
 
     [SerializeField]
     private List<AudioClip> music;
@@ -17,10 +17,17 @@ public class AudioSystem : StaticInstance<AudioSystem> {
     private AudioClip hit;
     #endregion
 
+    protected override void Awake() {
+        base.Awake();
+    }
+
     private void Start() {
+        _musicSource = GetComponentsInChildren<AudioSource>()[0];
+        _soundsSource = GetComponentsInChildren<AudioSource>()[1];
+
         _musicSource.clip = music[musicIndex];
         _musicSource.Play();
-        TurnMusicOn(Player.Instance.isSoundOn);
+        TurnMusicOn(Player.isSoundOn);
     }
 
     private void Update() {
@@ -30,12 +37,10 @@ public class AudioSystem : StaticInstance<AudioSystem> {
     }
 
     public void TurnMusicOn(bool isOn) {
-        Debug.Log(_musicSource);
         _musicSource.volume = isOn ? 0.5f : 0;
     }
 
     public void TurnSoundOn(bool isOn) {
-        Debug.Log(_soundsSource);
         _soundsSource.volume = isOn ? 0.5f : 0;
     }
 
@@ -60,7 +65,6 @@ public class AudioSystem : StaticInstance<AudioSystem> {
     }
 
     public void PlayHit() {
-        Debug.Log("hit");
         PlaySound(hit);
     }
 }
