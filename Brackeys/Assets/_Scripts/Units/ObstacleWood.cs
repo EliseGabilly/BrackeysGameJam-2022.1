@@ -25,6 +25,7 @@ public class ObstacleWood : MonoBehaviour {
     }
 
     private void DestroyObstacle() {
+        WallSpawner.Instance.RemoveObstacleAt(new Vector2Int (Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y)));
         Destroy(gameObject);
     }
 

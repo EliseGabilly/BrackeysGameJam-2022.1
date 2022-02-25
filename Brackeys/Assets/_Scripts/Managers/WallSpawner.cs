@@ -160,8 +160,9 @@ public class WallSpawner : Singleton<WallSpawner> {
     }
 
     public void MovePlayerTo(Vector2 playerPos) {
-        obstacles[Mathf.FloorToInt(playerPos.x)][Mathf.FloorToInt(playerPos.y)] = 1;
         obstacles[playerPreviousPos.x][playerPreviousPos.y] = 0;
+        obstacles[Mathf.FloorToInt(playerPos.x)][Mathf.FloorToInt(playerPos.y)] = 1;
+        playerPreviousPos = new Vector2Int(Mathf.FloorToInt(playerPos.x), Mathf.FloorToInt(playerPos.y));
         newObstacleDecompte--;
         if(newObstacleDecompte == 0) {
             newObstacleDecompte = 3;
@@ -170,6 +171,20 @@ public class WallSpawner : Singleton<WallSpawner> {
     }
 
     private void SpawnWoodenObstacles() {
+        //check if there is a free spot to spawn
+        int countEmptySpot = 0;
+        foreach(int[] row in obstacles) {
+            foreach(int val in row) {
+                if (val == 0) {
+                    countEmptySpot++;
+                    break;
+                }
+            }
+            if (countEmptySpot >= 1) break;
+        }
+        if (countEmptySpot == 0) return;
+
+        //spawn an obstacle
         int x = Random.Range(0, arenaSize);
         int y = Random.Range(0, arenaSize);
         while (obstacles[x][y] == 1) {
@@ -181,5 +196,9 @@ public class WallSpawner : Singleton<WallSpawner> {
         SpriteRenderer sr = obstacle.GetComponentInChildren<SpriteRenderer>();
         sr.sortingOrder = arenaSize - y;
         obstacles[x][y] = 1;
+    }
+
+    public void RemoveObstacleAt(Vector2Int pos) {
+        obstacles[pos.x][pos.y] = 0;
     }
 }
