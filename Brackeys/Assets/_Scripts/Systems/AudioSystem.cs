@@ -15,6 +15,12 @@ public class AudioSystem : StaticInstance<AudioSystem> {
     private int musicIndex = 0;
     [SerializeField]
     private AudioClip hit;
+    [SerializeField]
+    private AudioClip tp;
+    [SerializeField]
+    private AudioClip btn;
+    [SerializeField]
+    private AudioClip next;
     #endregion
 
     protected override void Awake() {
@@ -66,5 +72,17 @@ public class AudioSystem : StaticInstance<AudioSystem> {
 
     public void PlayHit() {
         PlaySound(hit);
+    }
+
+    public void PlayTP() {
+        PlaySound(tp);
+    }
+
+    public void PlayBtn() {
+        PlaySound(btn);
+    }
+
+    public void PlayNext() {
+        PlaySound(next);
     }
 }

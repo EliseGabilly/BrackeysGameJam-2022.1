@@ -386,10 +386,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - {fileID: 8300000, guid: 187a79f74a4d47740b904e0767fc93d7, type: 3}
-  - {fileID: 8300000, guid: 66230308c44844d4baeaeb7c3e97d1eb, type: 3}
-  - {fileID: 8300000, guid: ea8a461a5ec898a448c3a1f06c91e4a8, type: 3}
-  hit: {fileID: 8300000, guid: bfa56daa450646743b421109f63671c8, type: 3}
+  - {fileID: 8300000, guid: e3ff86cdcdda97c488a62108e3a98a52, type: 3}
+  hit: {fileID: 8300000, guid: a78f1203a8a7d0d4a9fde6ec75e57958, type: 3}
+  tp: {fileID: 8300000, guid: 9a6b063e893a56d4ca7651f6e2b1eded, type: 3}
+  btn: {fileID: 8300000, guid: 78af4e56d6b1d354d99b94ad7fc49e43, type: 3}
+  next: {fileID: 8300000, guid: 29773c51736e398479829a8803acdc4f, type: 3}
 --- !u!1 &1163341471010937456
 GameObject:
   m_ObjectHideFlags: 0

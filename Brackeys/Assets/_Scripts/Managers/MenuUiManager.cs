@@ -84,4 +84,7 @@ public class MenuUiManager : Singleton<MenuUiManager> {
         StartCoroutine(LvlUpdate());
     }
 
+    public void PlayBtnSound() {
+        AudioSystem.Instance.PlayBtn();
+    }
 }

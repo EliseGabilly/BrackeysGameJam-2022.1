@@ -91,6 +91,7 @@ public class UiManager : Singleton<UiManager> {
         if (isDialogueOn) {
             if (Input.GetKeyDown(KeyCode.Space)) {
                 CloseLine();
+                AudioSystem.Instance.PlayNext();
                 if (dialogueLineLeft == 0) {
                     PlayerControlManager.Instance.FreezeForDialogue(false);
                     isDialogueOn = false;
