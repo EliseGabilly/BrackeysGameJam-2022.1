@@ -13,6 +13,7 @@ public class ObstacleWood : MonoBehaviour {
     private GameObject crack2;
     [SerializeField]
     private Animator anim;
+    [SerializeField]
     private int pv = 3;
     #endregion
 
@@ -26,7 +27,7 @@ public class ObstacleWood : MonoBehaviour {
         particules.SetActive(true);
         yield return new WaitForSeconds(0.2f);
         particules.SetActive(false);
-        if (pv == 0) {
+        if (pv <= 0) {
             DestroyObstacle();
         } else if (pv == 1) {
             crack2.SetActive(true);

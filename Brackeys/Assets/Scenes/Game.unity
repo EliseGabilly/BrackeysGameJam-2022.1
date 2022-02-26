@@ -956,6 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5582114145324258305, guid: 679767b7c8bd30d4caffe36cad7cd67b, type: 3}
+  stephPrefab: {fileID: 4943367439127521389, guid: 20bd832efe0ea084fba70fc928d0f51a, type: 3}
   endPrefab: {fileID: 5386753654850377745, guid: ee5bd84be024cb44aab90ef388a09542, type: 3}
   environementParent: {fileID: 874350840}
 --- !u!1 &494277966

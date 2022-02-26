@@ -8,6 +8,8 @@ public class WallSpawner : Singleton<WallSpawner> {
     [SerializeField]
     private GameObject playerPrefab;
     [SerializeField]
+    private GameObject stephPrefab;
+    [SerializeField]
     private GameObject endPrefab;
     [SerializeField]
     private Transform environementParent;
@@ -18,6 +20,7 @@ public class WallSpawner : Singleton<WallSpawner> {
     private Camera mainCamera;
     private int newObstacleDecompte = 3;
     private Vector2Int playerPreviousPos;
+    private Vector3 endPos;
     #endregion
 
     protected override void Awake() {
@@ -38,6 +41,9 @@ public class WallSpawner : Singleton<WallSpawner> {
         GenerateWalls();
         GenerateObtacles();
         FitCamera();
+        if (lvl == 1) {
+            SpawnSteph();
+        }
     }
 
     private void GenerateObtacles() {
@@ -65,7 +71,8 @@ public class WallSpawner : Singleton<WallSpawner> {
         while (y == yPlayer) {
             y = Random.Range(0, arenaSize);
         }
-        GameObject end = Instantiate(endPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity) as GameObject;
+        endPos = new Vector3(x + 0.5f, y + 0.5f, 0);
+        GameObject end = Instantiate(endPrefab, endPos, Quaternion.identity) as GameObject;
         end.transform.parent = environementParent;
         sr = end.GetComponentInChildren<SpriteRenderer>();
         sr.sortingOrder = arenaSize - y -1 ;
@@ -207,5 +214,15 @@ public class WallSpawner : Singleton<WallSpawner> {
 
     public void RemoveObstacleAt(Vector2Int pos) {
         obstacles[pos.x][pos.y] = 0;
+    }
+
+    private void SpawnSteph() {
+        Vector3 pos = new Vector3(playerPreviousPos.x, playerPreviousPos.y, 0);
+        GameObject spawn = Instantiate(stephPrefab, pos, Quaternion.identity) as GameObject;
+        spawn.transform.parent = environementParent;
+        SpriteRenderer sr = spawn.GetComponentInChildren<SpriteRenderer>();
+        sr.sortingOrder = 50;
+        Steph steph = spawn.GetComponent<Steph>();
+        steph.EndPos = endPos;
     }
 }
